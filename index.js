@@ -21,15 +21,30 @@ var firebaseConfig = {
      p = Object.values(p)
     //  $("#write").append(name + ":" + text)
      $("#metn").val("")
-  db.ref().set({
-  name:text
+     var insan = {
+        name:name,
+        text:text
+     }
+  var Kam = db.ref('budaq').push(insan)
   })
+
+  db.ref('budaq').on('value',function(snapshot){
+      var human = snapshot.val()
+      var human = Object.values(human)
+      console.log(human)
+    for(var employee of human){
+        console.log(employee)
+    }
+
+    console.log(employee.name + employee.text)
+    $("#write").append("<div>" + employee.name  +":"+employee.text+ "</div>")
+
   })
   
-  db.ref().on('value',function(snapshot){
-    console.log(snapshot.val())
-    var human = snapshot.val()
-    human = Object.values(human)
-    console.log(human)
-    $("#write").append("<div>" + name  +":"+  human+ "</div>")
-  })
+//   db.ref().on('value',function(snapshot){
+//     console.log(snapshot.val())
+//     var human = snapshot.val()
+//     // human = Object.values(human)
+//     console.log(human)
+//     $("#write").append("<div>" + human.name  +":"+human.text+ "</div>")
+//   })
