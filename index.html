@@ -8,27 +8,56 @@
 </head>
 <style>
 
+#chat {
+  /* Positioning */
+  position: relative;
 
-.con{
-display: flex;
-justify-content: center;
-align-items: center;
+  /* Box-model */
+  width: 600px;
+  height: 150px;
 
+  /* Visual */
+  padding: 10px;
+  margin: 20px auto;
+}
+
+#write {
+  /* Box-model */
+  height: 125px;
+  overflow: auto;
+
+  /* Visual */
+  background-color: #fffcf7;
+}
+
+#chat-bar {
+  /* Positioning */
+  position: absolute;
+  bottom: 30px;
+}
+
+#metn {
+  /* Box-model */
+  width: 550px;
+}
+
+#btn {
+  /* Box-model */
+  width: 40px;
 }
 
 </style>
 <body>
   
-<div class="con">
-  
-<form action="">
-  <input type="text" id="metn">
-  <input type="submit" value="submit" id="btn">
+
+
+<form id="chat">
   <div id="write"></div>
-
- </form>
-
-</div>
+  <div id="chat-bar">
+    <input id="metn" />
+    <button id="btn" >Send</button>
+  </div>
+</form>
 
 
 

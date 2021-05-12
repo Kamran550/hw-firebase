@@ -19,7 +19,6 @@ var firebaseConfig = {
      var p =$("<div>")
      p.text(text)
      p = Object.values(p)
-    //  $("#write").append(name + ":" + text)
      $("#metn").val("")
      var insan = {
         name:name,
@@ -33,18 +32,14 @@ var firebaseConfig = {
       var human = Object.values(human)
       console.log(human)
     for(var employee of human){
-        console.log(employee)
     }
+    console.log(employee)
+
 
     console.log(employee.name + employee.text)
-    $("#write").append("<div>" + employee.name  +":"+employee.text+ "</div>")
+    $("#write").append("<div>" + employee.name  +":"+employee.text+ "</div> <hr>")
+    $("#write").scrollTop($("#write")[0].scrollHeight);
+
 
   })
   
-//   db.ref().on('value',function(snapshot){
-//     console.log(snapshot.val())
-//     var human = snapshot.val()
-//     // human = Object.values(human)
-//     console.log(human)
-//     $("#write").append("<div>" + human.name  +":"+human.text+ "</div>")
-//   })
