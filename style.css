@@ -1,0 +1,59 @@
+#chat {
+    /* Positioning */
+    position: relative;
+  
+    /* Box-model */
+    width: 609px;
+    height: 150px;
+  
+    /* Visual */
+    padding: 10px;
+    margin: 20px auto;
+  }
+  
+  #write {
+    /* Box-model */
+    height: 125px;
+    overflow: auto;
+  
+    /* Visual */
+    background-color: rgb(219, 202, 88);
+  }
+  
+  #chat-bar {
+    /* Positioning */
+    
+    position: absolute; 
+     bottom: -20px;
+    width: auto;
+  }
+  
+  #metn {
+    /* Box-model */
+    width: 550px;
+  }
+  
+   #btn { 
+    /* Box-model */
+    width: 40px;
+    position: absolute;
+    border: none;
+  }
+
+  
+    #head {
+    text-align: center;
+    font-size: 3rem;
+    margin: 2rem 0 3.2rem;
+    font-weight: 700;
+    }
+
+  .second {
+    display: none;
+    ;
+  }
+
+  .card {
+    padding: 0;
+    margin: 20px;
+  }

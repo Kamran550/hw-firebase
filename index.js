@@ -10,7 +10,8 @@ var firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
   var db = firebase.database()
   
-  
+// chat hissesi
+
   var name = prompt("adiniz?")
   
   $("#btn").on('click',function(event){
@@ -43,3 +44,65 @@ var firebaseConfig = {
 
   })
   
+  // Game hisse
+
+  var joinName;
+var joinRoom;
+var createName;
+var createRoom;
+var userGuess = {
+  W: 0,
+  L: 0,
+  T: 0,
+  guess: null,
+  chat: "Good Luck, Have Fun! :)"
+}
+
+function checkJoinValues(){
+  if($("#joinNameVal").val().trim() && $("#joinRoomVal").val().trim()){
+    $(".join").prop('disabled',false)
+  }else{
+    $(".join").prop('disabled',true)
+  }
+}
+
+function checkCreateValues(){
+  if($("#createNameVal").val().trim() && $("#createRoomVal").val().trim()){
+    $(".create").prop('disabled',false)
+  }else{
+    $(".create").prop('disabled',true)
+
+  }
+}
+
+$(".join").on('click',function(){
+  joinName = $("#joinNameVal").val().trim()
+  joinRoom = $("#joinRoomVal").val().trim()
+  db.ref('Rooms').on('value',function(snapshot){
+    if(snapshot.hasChild(joinRoom)){
+      db.ref(`Rooms/${joinRoom}/${joinName}`).set({
+        userGuess
+      })
+
+      $(".second").show()
+      $(".welcoming").hide()
+
+    }else{
+      alert("Bele bir otaq yoxdur")
+    }
+  })
+})
+
+
+$(".create").on('click',function(){
+  createName = $("#createNameVal").val().trim()
+  createRoom = $("#createRoomVal").val().trim()
+
+
+ db.ref(`Rooms/${createRoom}/${createName}`).set({
+   userGuess
+ })
+
+ $(".welcoming").hide()
+ $(".second").show()
+})
