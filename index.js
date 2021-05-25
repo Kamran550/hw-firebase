@@ -10,7 +10,7 @@ var firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
   var db = firebase.database()
   
-// chat hissesi
+// chat hissesi   
 
   var name = prompt("adiniz?")
   
@@ -41,7 +41,6 @@ var firebaseConfig = {
     $("#write").append("<div>" + employee.name  +":"+employee.text+ "</div> <hr>")
     $("#write").scrollTop($("#write")[0].scrollHeight);
 
-
   })
   
   // Game hisse
@@ -59,7 +58,7 @@ var userGuess = {
 }
 
 function checkJoinValues(){
-  if($("#joinNameVal").val().trim() && $("#joinRoomVal").val().trim()){
+  if( $("#joinRoomVal").val().trim()){
     $(".join").prop('disabled',false)
   }else{
     $(".join").prop('disabled',true)
@@ -67,7 +66,7 @@ function checkJoinValues(){
 }
 
 function checkCreateValues(){
-  if($("#createNameVal").val().trim() && $("#createRoomVal").val().trim()){
+  if($("#createRoomVal").val().trim()){
     $(".create").prop('disabled',false)
   }else{
     $(".create").prop('disabled',true)
@@ -76,13 +75,14 @@ function checkCreateValues(){
 }
 
 $(".join").on('click',function(){
-  joinName = $("#joinNameVal").val().trim()
+  // joinName = $("#joinNameVal").val().trim()
   joinRoom = $("#joinRoomVal").val().trim()
   db.ref('Rooms').on('value',function(snapshot){
     if(snapshot.hasChild(joinRoom)){
-      db.ref(`Rooms/${joinRoom}/${joinName}`).set({
+      db.ref(`Rooms/${joinRoom}`).set({
         userGuess
       })
+      $(".card-header").text(name)
 
       $(".second").show()
       $(".welcoming").hide()
@@ -95,12 +95,13 @@ $(".join").on('click',function(){
 
 
 $(".create").on('click',function(){
-  createName = $("#createNameVal").val().trim()
+  // createName = $("#createNameVal").val().trim()
   createRoom = $("#createRoomVal").val().trim()
 
+  $(".card-header").text(name)
 
- db.ref(`Rooms/${createRoom}/${createName}`).set({
-   userGuess
+ db.ref(`Rooms/${createRoom}`).set({
+   userGuess 
  })
 
  $(".welcoming").hide()
