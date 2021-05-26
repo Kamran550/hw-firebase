@@ -64,23 +64,23 @@ $(".join").on('click',function(){
     var joinName = $("#joinRoomVal").val().trim()
     var joinRoom = $("#joinNameVal").val().trim()
 console.log(joinName,joinRoom)
-
+var SecondName = {
+    name:joinName,
+    room:joinRoom,
+    Win: 0,
+    L:0,
+    T:0,
+    chat:"Mesajinizi bura yazin"
+}
 db.ref(`Rooms/`).on('value',function(snapshot){
     if(snapshot.hasChild(joinRoom)){
-        var SecondName = {
-            name:joinName,
-            room:joinRoom,
-            Win: 0,
-            L:0,
-            T:0,
-            chat:"Mesajinizi bura yazin"
-        }
+        db.ref(`Rooms/${joinRoom}`).set({
+            SecondName
+            })
         $(".second").show()
         $(".welcoming").hide()
         
-        db.ref(`${joinRoom}`).set({
-        SecondName
-        })
+       
     }else{
         alert("error")
     }
