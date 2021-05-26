@@ -5,105 +5,85 @@ var firebaseConfig = {
     storageBucket: "fkbootcamp.appspot.com",
     messagingSenderId: "407529317160",
     appId: "1:407529317160:web:d2096a7f94481386fb661d"
-  };
-  
-  firebase.initializeApp(firebaseConfig);
-  var db = firebase.database()
-  
-// chat hissesi   
+};
 
-  var name = prompt("adiniz?")
-  
-  $("#btn").on('click',function(event){
-    event.preventDefault()
-    var text = $("#metn").val().trim()
-     var p =$("<div>")
-     p.text(text)
-     p = Object.values(p)
-     $("#metn").val("")
-     var insan = {
-        name:name,
-        text:text
-     }
-  var Kam = db.ref('budaq').push(insan)
-  })
+firebase.initializeApp(firebaseConfig);
+var db = firebase.database()
 
-  db.ref('budaq').on('value',function(snapshot){
-      var human = snapshot.val()
-      var human = Object.values(human)
-      console.log(human)
-    for(var employee of human){
-    }
-    console.log(employee)
+var room = db.ref(`Rooms`)
+// Inputdan aldigin roomu firebasede qeyd et
+// Roomun icerisinde 2 player budagi yarat
 
-
-    console.log(employee.name + employee.text)
-    $("#write").append("<div>" + employee.name  +":"+employee.text+ "</div> <hr>")
-    $("#write").scrollTop($("#write")[0].scrollHeight);
-
-  })
-  
-  // Game hisse
-
-  var joinName;
+var joinName;
 var joinRoom;
 var createName;
 var createRoom;
-var userGuess = {
-  W: 0,
-  L: 0,
-  T: 0,
-  guess: null,
-  chat: "Good Luck, Have Fun! :)"
-}
 
-function checkJoinValues(){
-  if( $("#joinRoomVal").val().trim()){
-    $(".join").prop('disabled',false)
-  }else{
-    $(".join").prop('disabled',true)
-  }
-}
+function checkJoinValues() {
+    if ($("#joinRoomVal").val().trim() && $("#joinNameVal").val().trim()) {
+        $(".join").prop("disabled", false)
+    } else {
+        $(".join").prop("disabled", true)
 
-function checkCreateValues(){
-  if($("#createRoomVal").val().trim()){
-    $(".create").prop('disabled',false)
-  }else{
-    $(".create").prop('disabled',true)
-
-  }
-}
-
-$(".join").on('click',function(){
-  // joinName = $("#joinNameVal").val().trim()
-  joinRoom = $("#joinRoomVal").val().trim()
-  db.ref('Rooms').on('value',function(snapshot){
-    if(snapshot.hasChild(joinRoom)){
-      db.ref(`Rooms/${joinRoom}`).set({
-        userGuess
-      })
-      $(".card-header").text(name)
-
-      $(".second").show()
-      $(".welcoming").hide()
-
-    }else{
-      alert("Bele bir otaq yoxdur")
     }
-  })
+}
+
+function checkCreateValues() {
+    if ($("#createRoomVal").val().trim() && $("#createNameVal").val().trim()) {
+        $(".create").prop("disabled", false)
+    } else {
+        $(".create").prop("disabled", true)
+
+    }
+}
+
+
+$(".create").on('click', function () {
+    var createRoom = $("#createRoomVal").val().trim();
+    var createName = $("#createNameVal").val().trim()
+    console.log(createRoom,createName)
+var userCreateName = {
+    name:createName,
+    room:createRoom,
+    Win: 0,
+    L:0,
+    T:0,
+    chat:"Mesajinizi bura yazin"
+
+}
+$(".second").show()
+$(".welcoming").hide()
+
+    db.ref(`Rooms/${createRoom}`).set({
+      userCreateName
+    })
 })
 
 
-$(".create").on('click',function(){
-  // createName = $("#createNameVal").val().trim()
-  createRoom = $("#createRoomVal").val().trim()
+$(".join").on('click',function(){
+    var joinName = $("#joinRoomVal").val().trim()
+    var joinRoom = $("#joinNameVal").val().trim()
+console.log(joinName,joinRoom)
 
-  $(".card-header").text(name)
+db.ref(`Rooms/`).on('value',function(snapshot){
+    if(snapshot.hasChild(joinRoom)){
+        var SecondName = {
+            name:joinName,
+            room:joinRoom,
+            Win: 0,
+            L:0,
+            T:0,
+            chat:"Mesajinizi bura yazin"
+        }
+        $(".second").show()
+        $(".welcoming").hide()
+        
+        db.ref(`${joinRoom}`).set({
+        SecondName
+        })
+    }else{
+        alert("error")
+    }
+})
 
- db.ref(`Rooms/${createRoom}`).set({
-   userGuess 
- })
-
- $(".welcoming").hide()
- $(".second").show()
 })
