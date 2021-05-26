@@ -38,27 +38,6 @@ function checkCreateValues() {
 }
 
 
-$(".create").on('click', function () {
-    var createRoom = $("#createRoomVal").val().trim();
-    var createName = $("#createNameVal").val().trim()
-    console.log(createRoom,createName)
-var userCreateName = {
-    name:createName,
-    room:createRoom,
-    Win: 0,
-    L:0,
-    T:0,
-    chat:"Mesajinizi bura yazin"
-
-}
-$(".second").show()
-$(".welcoming").hide()
-
-    db.ref(`Rooms/${createRoom}`).set({
-      userCreateName
-    })
-})
-
 
 $(".join").on('click',function(){
     var joinName = $("#joinRoomVal").val().trim()
@@ -86,4 +65,25 @@ db.ref(`Rooms/`).on('value',function(snapshot){
     }
 })
 
+})
+
+$(".create").on('click', function () {
+    var createRoom = $("#createRoomVal").val().trim();
+    var createName = $("#createNameVal").val().trim()
+    console.log(createRoom,createName)
+var userCreateName = {
+    name:createName,
+    room:createRoom,
+    Win: 0,
+    L:0,
+    T:0,
+    chat:"Mesajinizi bura yazin"
+
+}
+$(".second").show()
+$(".welcoming").hide()
+
+    db.ref(`Rooms/${createRoom}`).set({
+      userCreateName
+    })
 })
