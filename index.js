@@ -39,51 +39,51 @@ function checkCreateValues() {
 
 
 
-$(".join").on('click',function(){
+$(".join").on('click', function () {
     var joinName = $("#joinRoomVal").val().trim()
     var joinRoom = $("#joinNameVal").val().trim()
-console.log(joinName,joinRoom)
-var SecondName = {
-    name:joinName,
-    room:joinRoom,
-    Win: 0,
-    L:0,
-    T:0,
-    chat:"Mesajinizi bura yazin"
-}
-db.ref(`Rooms/`).on('value',function(snapshot){
-    if(snapshot.hasChild(joinRoom)){
-        db.ref(`Rooms/${joinRoom}`).set({
-            SecondName
-            })
-        $(".second").show()
-        $(".welcoming").hide()
-        
-       
-    }else{
-        alert("error")
+    console.log(joinName, joinRoom)
+    var SecondName = {
+        name: joinName,
+        room: joinRoom,
+        Win: 0,
+        L: 0,
+        T: 0,
+        chat: "Mesajinizi bura yazin"
     }
-})
 
-})
+    db.ref(`Rooms/`).on('value', function (snapshot) {
+        if (snapshot.hasChild(joinRoom)) {
+            db.ref(`Rooms/${joinRoom}`).set({
+                SecondName
 
-$(".create").on('click', function () {
-    var createRoom = $("#createRoomVal").val().trim();
-    var createName = $("#createNameVal").val().trim()
-    console.log(createRoom,createName)
-var userCreateName = {
-    name:createName,
-    room:createRoom,
-    Win: 0,
-    L:0,
-    T:0,
-    chat:"Mesajinizi bura yazin"
+            })
+            $(".second").show()
+            $(".welcoming").hide()
 
-}
-$(".second").show()
-$(".welcoming").hide()
-
-    db.ref(`Rooms/${createRoom}`).set({
-      userCreateName
+        } else {
+            alert("Bele bir otaq yoxdur")
+        }
     })
 })
+
+
+$(".create").on('click', function () {
+    createName = $("#createNameVal").val().trim()
+    createRoom = $("#createRoomVal").val().trim()
+    var userOne = {
+        name: createName,
+        room: createRoom,
+        Win: 0,
+        L: 0,
+        T: 0,
+        chat: "Mesajinizi bura yazin"
+    }
+    db.ref(`Rooms/${createRoom}`).set({
+        userOne
+    })
+    
+ $(".welcoming").hide()
+ $(".second").show()
+})
+
