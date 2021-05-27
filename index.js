@@ -69,11 +69,11 @@ $(".join").on('click', function () {
         guess: null,
         chat: "Good Luck, Have Fun! :)"
     }
-
+thisroom = joinRoom
     $(".jButtons").prop("disabled", false)
     $(".joinName").text(joinName)
     db.ref(`Rooms/`).once('value', function (snapshot) {
-        $(".createName").text(snapshot.child(joinRoom).val().player1.Name)
+        $(".createName").text(snapshot.child(thisroom).val().player1.Name)
 
 
         if (snapshot.hasChild(joinRoom)) {
@@ -147,7 +147,7 @@ $(".cButtons").on('click',function(){
 })
 
 
-doNotTrack.ref(`Rooms/`).on('value',function(snapshot){
+db.ref(`Rooms/`).on('value',function(snapshot){
     call(createRoom)
 })
 
