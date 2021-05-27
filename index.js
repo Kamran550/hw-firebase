@@ -18,6 +18,24 @@ var joinName;
 var joinRoom;
 var createName;
 var createRoom;
+var userGuess2 = {
+    Name: "Whating...",
+    W: 0,
+    L: 0,
+    T: 0,
+    guess: null,
+    chat: "Good Luck, Have Fun! :)"
+}
+var userGuess1 = {
+    Name: "Whating...",
+    W: 0,
+    L: 0,
+    T: 0,
+    guess: null,
+    chat: "Good Luck, Have Fun! :)"
+}
+var thisroom = "test"
+
 
 function checkJoinValues() {
     if ($("#joinRoomVal").val().trim() && $("#joinNameVal").val().trim()) {
@@ -40,50 +58,109 @@ function checkCreateValues() {
 
 
 $(".join").on('click', function () {
-    var joinName = $("#joinRoomVal").val().trim()
-    var joinRoom = $("#joinNameVal").val().trim()
-    console.log(joinName, joinRoom)
-    var SecondName = {
-        name: joinName,
-        room: joinRoom,
-        Win: 0,
+    joinName = $("#joinNameVal").val().trim()
+    joinRoom = $("#joinRoomVal").val().trim()
+
+    var userGuess2 = {
+        Name: joinName,
+        W: 0,
         L: 0,
         T: 0,
-        chat: "Mesajinizi bura yazin"
+        guess: null,
+        chat: "Good Luck, Have Fun! :)"
     }
 
-    db.ref(`Rooms/`).on('value', function (snapshot) {
-        if (snapshot.hasChild(joinRoom)) {
-            db.ref(`Rooms/${joinRoom}`).set({
-                SecondName
+    $(".jButtons").prop("disabled", false)
+    $(".joinName").text(joinName)
+    db.ref(`Rooms/`).once('value', function (snapshot) {
+        $(".createName").text(snapshot.child(joinRoom).val().player1.Name)
 
-            })
-            $(".second").show()
+
+        if (snapshot.hasChild(joinRoom)) {
+            db.ref(`Rooms/${joinRoom}/player2/`).set(
+                userGuess2
+            )
             $(".welcoming").hide()
+            $(".second").show()
 
         } else {
             alert("Bele bir otaq yoxdur")
         }
     })
-})
 
+})
 
 $(".create").on('click', function () {
     createName = $("#createNameVal").val().trim()
     createRoom = $("#createRoomVal").val().trim()
-    var userOne = {
-        name: createName,
-        room: createRoom,
-        Win: 0,
+
+    userGuess1 = {
+        Name: createName,
+        W: 0,
         L: 0,
         T: 0,
-        chat: "Mesajinizi bura yazin"
+        guess: null,
+        chat: "Good Luck, Have Fun! :)"
     }
-    db.ref(`Rooms/${createRoom}`).set({
-        userOne
+
+    $(".cButtons").prop('disabled', false)
+
+    db.ref(`Rooms/${createRoom}/player1`).set(
+        userGuess1
+    )
+
+    db.ref(`Rooms/${createRoom}/player2`).set(
+        userGuess2
+    )
+    thisroom = createRoom
+    $(".welcoming").hide()
+    db.ref(`Rooms/${thisroom}`).on('value', function (snapshot) {
+        $(".joinName").text(snapshot.val().player2.Name)
+        $(".createName").text(snapshot.val().player1.Name)
     })
-    
- $(".welcoming").hide()
- $(".second").show()
+    $(".second").show()
+
 })
 
+
+$(".jButtons").on('click',function(){
+    var player2Choice = $(this).attr("value")
+
+ 
+
+    db.ref(`Rooms/${thisroom}/player2`).update({
+        guess:player2Choice
+    })
+    gameBegin()
+
+})
+
+$(".cButtons").on('click',function(){
+    var player1Choice = $(this).attr('value')
+    console.log(player1Choice)
+
+    db.ref(`Rooms/${thisroom}/player1`).update({
+        guess:player1Choice
+    })
+
+    gameBegin()
+})
+
+
+doNotTrack.ref(`Rooms/`).on('value',function(snapshot){
+    call(createRoom)
+})
+
+
+function call(room){
+    db.ref(`Rooms/${room}`).on('value',function(snapshot){
+        $("#jw").text(snapshot.child(player2).val().W)
+        $("#jl").text(snapshot.child(player2).val().L)
+        $("#jt").text(snapshot.child(player2).val().T)
+
+        $("#cw").text(snapshot.child(player2).val().W)
+        $("#cl").text(snapshot.child(player2).val().L)
+        $("#ct").text(snapshot.child(player2).val().T)
+
+    })
+}
